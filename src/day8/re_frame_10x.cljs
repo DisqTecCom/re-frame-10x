@@ -31,12 +31,12 @@
                                        {})
                           :operation (operation-name c)}
                          (if util/*non-reactive*
-                           (reagent.impl.component/do-render c)
+                           nil #_(reagent.impl.component/do-render c)
                            (let [rat        (gob/get c "cljsRatom")
                                  _          (batch/mark-rendered c)
                                  res        (if (nil? rat)
-                                              (ratom/run-in-reaction #(reagent.impl.component/do-render c) c "cljsRatom"
-                                                                     batch/queue-render reagent.impl.component/rat-opts)
+                                              nil #_(ratom/run-in-reaction #(reagent.impl.component/do-render c) c "cljsRatom"
+                                                                           batch/queue-render reagent.impl.component/rat-opts)
                                               (._run rat false))
                                  cljs-ratom (gob/get c "cljsRatom")] ;; actually a reaction
                              (trace/merge-trace!
@@ -65,7 +65,7 @@
                                    :operation (last (str/split name #" > "))}
                                   (real-renderer c)))))
 
-    (set! reagent.impl.component/static-fns static-fns)
+    #_(set! reagent.impl.component/static-fns static-fns)
 
     (set! reagent.impl.component/custom-wrapper
           (fn [key f]
